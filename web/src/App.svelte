@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from "svelte";
 	import Chart from './Chart.svelte';
 	import { getSample } from './stats.js';
 	let n = 1;
@@ -9,6 +10,16 @@
 	let dupicates = false;
 	let label = true;
 	let format = false;
+
+	onMount(() => {
+		let iframe = document.createElement("iframe");
+		iframe.sandbox = "allow-forms allow-scripts";
+		iframe.src = `http://onlineraceresults.com/race/view_race.php?race_id=67959&submit_action=select_result&order_by=default&group_by=default#results`;
+		// iframe.width = 0;
+		// iframe.height = 0;
+		document.body.appendChild(iframe);
+		console.log(iframe);
+	});
 
 	function work2(a, n, dupicates) {
 		mean = 0;
@@ -99,9 +110,8 @@
 	<input type="number" min="1" max="10000" bind:value="{a}" />
 	<p>mean: {Math.round(mean * 1000) / 1000}</p>
 	<p>
-		No duplicates in sample:
+		No duplicates in sample(Makes it slower!):
 		<input type=checkbox bind:checked={dupicates}>
-		!!!Warning!!! Makes it slower!
 	</p>
 	<p>
 		Show label:

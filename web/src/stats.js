@@ -1,34 +1,24 @@
 import { data } from './data.js';
 
-export function getSample(n, d) {
+export function getSample(n, dupicates) {
 	let f = 0;
-	let temp;
-	if(d){
-		temp = shuffle(data);
+	if(dupicates){
+		let indexes = {};
+		let i = 0;
+		while(i < n){
+			let index = Math.floor(Math.random() * data.length);
+			if(!indexes[index]){
+				indexes[index] = true;
+				if (!data[index]) f++;
+				i++;
+			}
+		}
 	} else{
-		temp = data;
-	}
-	for (let i = 0; i < n; i++) {
-		if (!temp[Math.floor(Math.random() * temp.length)]) f++;
+		for (let i = 0; i < n; i++) {
+			if (!data[Math.floor(Math.random() * data.length)]) f++;
+		}
 	}
 	return f / n;
-}
-
-function shuffle(array) {
-	let currentIndex = array.length,
-		randomIndex;
-
-	// While there remain elements to shuffle...
-	while (currentIndex != 0) {
-		// Pick a remaining element...
-		randomIndex = Math.floor(Math.random() * currentIndex);
-		currentIndex--;
-
-		// And swap it with the current element.
-		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-	}
-
-	return array;
 }
 
 export function NormSInv(p) {
