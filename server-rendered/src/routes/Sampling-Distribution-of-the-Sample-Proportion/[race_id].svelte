@@ -3,43 +3,22 @@
 </svelte:head>
 
 <script context="module">
-	import axios from 'axios';
 	export async function load({ params, fetch, session, stuff }) {
-		const url = `http://onlineraceresults.com/race/view_race.php?race_id=${params.race_id}&submit_action=select_result&order_by=default&group_by=default#results`;//
-		const res = await fetch(url);
-
+		const res = await fetch(`/Sampling-Distribution-of-the-Sample-Proportion/${params.race_id}.json`);
+		const article = await res.json();
+		
 		if (res.ok) {
 			return {
 				props: {
-					article: await res.json()
+					article
 				}
 			};
 		}
 
 		return {
 			status: res.status,
-			error: new Error(`Could not load ${url}`)
+			error: new Error(`Could not load race: ${race_id}`)
 		};
-		// try {
-		// 	const { data } = await axios.get(url);
-		// 	console.log(url);
-		// 	return {
-		// 	  	props: {
-		// 	  		article: 'ss'
-		// 	  	}
-		// 	};
-		// } catch (error) {
-		// 	console.log(error);
-		//   	if (axios.isAxiosError(error)) {
-		// 		console.log(error);
-		//   	} else {
-		//     	console.log(error);
-		//   	}
-		// 	return {
-		// 		// status: res.status,
-		// 		error: new Error(`Could not load ${url}`)
-		// 	};
-		// }
 	}
 </script>
 
